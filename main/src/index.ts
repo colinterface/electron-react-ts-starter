@@ -1,4 +1,5 @@
-import { BrowserWindow , app , ipcMain, IpcMessageEvent } from 'electron' ; 
+import { BrowserWindow , app , ipcMain, IpcMessageEvent, dialog } from 'electron' ; 
+import { readdirSync } from 'fs';
 import * as isDev from "electron-is-dev" ; 
 import * as path from 'path'
 
@@ -16,8 +17,16 @@ function createWindow() {
     mainWindow.on("closed", () => (mainWindow.destroy()));
 
     ipcMain.on('channel' , (event : IpcMessageEvent , msg: any)=>{
+        const files = dialog.showOpenDialog(mainWindow, {});
         console.log(msg)
-        mainWindow.webContents.send('response' , {title : 'mymessage'  , data : 1 }) ; 
+        mainWindow.webContents.send(
+        'response' , 
+        {
+          title: 'a s d f', 
+          data: 1234, 
+          asdf: readdirSync('.') 
+        }
+        ) ; 
     })
 }
 
